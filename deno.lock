@@ -1,0 +1,31 @@
+{
+  "version": "4",
+  "specifiers": {
+    "jsr:@hono/hono@^4.6.17": "4.6.17",
+    "jsr:@iwc/random-slug@~0.1.2": "0.1.2",
+    "jsr:@std/ulid@1": "1.0.0",
+    "jsr:@valibot/valibot@~0.42.1": "0.42.1"
+  },
+  "jsr": {
+    "@hono/hono@4.6.17": {
+      "integrity": "932fcc61d043b14a8b2cb65242716eb32da44e91f2ee117fd7390508669fea31"
+    },
+    "@iwc/random-slug@0.1.2": {
+      "integrity": "f664e2d0947b7633d41fbf8ea220cda38d3c04f05f47d4c9f8dcc15a0267c999"
+    },
+    "@std/ulid@1.0.0": {
+      "integrity": "d41c3d27a907714413649fee864b7cde8d42ee68437d22b79d5de4f81d808780"
+    },
+    "@valibot/valibot@0.42.1": {
+      "integrity": "ba0f6f7964aaeec0e4b1f793d575061f325ae6254cbb9d7ff01fb65068a0a23b"
+    }
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@hono/hono@^4.6.17",
+      "jsr:@iwc/random-slug@~0.1.2",
+      "jsr:@std/ulid@1",
+      "jsr:@valibot/valibot@~0.42.1"
+    ]
+  }
+}

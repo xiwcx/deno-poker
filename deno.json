@@ -1,0 +1,15 @@
+{
+  "imports": {
+    "@iwc/random-slug": "jsr:@iwc/random-slug@^0.1.2",
+    "@std/ulid": "jsr:@std/ulid@^1.0.0",
+    "@valibot/valibot": "jsr:@valibot/valibot@^0.42.1",
+    "hono": "jsr:@hono/hono@^4.6.17"
+  },
+  "tasks": {
+    "start": "deno run --allow-net --unstable-kv --watch main.ts"
+  },
+  "compilerOptions": {
+    "jsx": "precompile",
+    "jsxImportSource": "hono/jsx"
+  }
+}
