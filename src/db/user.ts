@@ -1,5 +1,6 @@
 import * as v from "@valibot/valibot";
-import { kv } from "./kv.ts";
+import { handleError } from "../utils/handleError.ts";
+import { kvClient } from "./kv.ts";
 
 /**
  * https://github.com/ulid/spec
@@ -16,16 +17,30 @@ export type User = v.InferOutput<typeof userSchema>;
 export const validateUser = (args: Record<keyof User, unknown>): User =>
   v.parse(userSchema, args);
 
-export function createUser({ id, name }: User) {
+export async function createUser({ id, name }: User) {
+  const key = ["user", id];
+
   try {
-    return kv.set(["user", id], { id, name });
+    const result = await kvClient.set(key, { id, name });
+
+    if (!result.ok) {
+      throw new Error("Failed to create user");
+    }
+
+    const { value } = await kvClient.get<User>(key);
+
+    if (!value) {
+      throw new Error("Failed to get user");
+    }
+
+    return value;
   } catch (e) {
-    console.error(e);
+    handleError(e);
   }
 }
 
 export async function getUser(id: string): Promise<User | null> {
-  const { value } = await kv.get<User>(["user", id]);
+  const { value } = await kvClient.get<User>(["user", id]);
 
   return value;
 }

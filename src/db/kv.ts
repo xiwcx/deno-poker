@@ -1,1 +1,1 @@
-export const kv = await Deno.openKv();
+export const kvClient = await Deno.openKv();
