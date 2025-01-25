@@ -4,9 +4,14 @@ import { type HtmlEscapedString } from "hono/utils/html";
 type DefaultTemplateArgs = {
   title: string;
   content: HtmlEscapedString | Promise<HtmlEscapedString>;
+  script?: string;
 };
 
-export const defaultTemplate = ({ content, title }: DefaultTemplateArgs) => {
+export const defaultTemplate = ({
+  content,
+  script,
+  title,
+}: DefaultTemplateArgs) => {
   return html`<!DOCTYPE html>
     <html lang="en">
       <head>
@@ -26,6 +31,8 @@ export const defaultTemplate = ({ content, title }: DefaultTemplateArgs) => {
         </header>
 
         <main>${content}</main>
+
+        ${script ? html`<script src="${script}" type="module"></script>` : null}
       </body>
     </html>`;
 };

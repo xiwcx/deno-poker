@@ -46,8 +46,6 @@ export async function getPointingSession(id: string) {
   try {
     const result = await kvClient.get<PointingSession>([pointingSesssion, id]);
 
-    console.log(result.value);
-
     return result.value;
   } catch (e) {
     handleError(e);

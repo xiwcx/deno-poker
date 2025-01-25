@@ -8,6 +8,7 @@ import { db } from "../db/index.ts";
 import { getUser, validateUser } from "../db/user.ts";
 import { defaultTemplate } from "../templates/default.ts";
 import { handleError } from "../utils/handleError.ts";
+import { serveStatic, upgradeWebSocket } from "hono/deno";
 
 const ROUTE = {
   home: "/",
@@ -168,12 +169,60 @@ app.get(ROUTE.session.get, session, async (c) => {
   return c.html(
     defaultTemplate({
       title: "session",
+      script: "/scripts/session.js",
       content: html`
         <h1>Session</h1>
         <p>Session: ${pointingSession.id}</p>
+        <div id="app"></div>
       `,
     })
   );
 });
+
+// =====================================================================
+// websocket
+// =====================================================================
+
+app.get(
+  "/ws/:id",
+  session,
+  upgradeWebSocket((c) => {
+    const { id } = c.req.param();
+
+    return {
+      onOpen(_event) {
+        console.log("ws", id);
+      },
+      onMessage(event, ws) {
+        // parse different events
+        // do i want https://www.npmjs.com/package/superjson ?
+
+        /**
+         * actions:
+         *
+         * - vote
+         * - reveal
+         * - clear
+         */
+
+        console.log(`Message from client: ${event.data}`);
+        ws.send("Hello from server!");
+      },
+      onClose: () => {
+        console.log("Connection closed");
+      },
+    };
+  })
+);
+
+// =====================================================================
+// static files
+// =====================================================================
+
+app.get(
+  "/scripts/*",
+  // TODO: compress this correctly
+  serveStatic({ root: "./src/public/" })
+);
 
 export { app };
